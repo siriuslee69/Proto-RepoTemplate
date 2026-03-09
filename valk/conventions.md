@@ -8,6 +8,18 @@
 - Prefer maintainability and explicit structure over cleverness.
 - Keep functions short and push detail into helpers instead of deep nesting.
 - Use module headers and clear names so the repo stays readable in plain text and in Ratatoskr.
+- Use pragmas to document the purpose of functions via tags for the Ratatoskr repo.
+
+## Pragmas for the Ratatoskr parser repo
+
+The pragmas should be written/implemented like this:
+{.role: "wrapper", tag: "server|protocol_bridge|network_surface|app_api".}
+
+The different types of pragmas are:
+role, risk, issue, tags, input_handler
+
+The explicit supported roles are:
+helper, wrapper, orchestrator, state_controller
 
 ## Function Style
 
@@ -20,8 +32,55 @@
 
 - Use short parameter names when the meaning is obvious in context.
 - Use stable names like `dir`, `path`, `args`, and `ctx` for common concepts.
+- Specifically avoid words like `magic`.
 - Use `i`, `j`, `k` for indices and `l`, `m`, `n` for lengths when a loop is mechanical.
+- Use uppercase letters for sequences, arrays and vectors.
+- Use S or S0, S1, etc. for state variables.
 - Name mutable state objects consistently when there are multiple state values in scope.
+
+
+
+## Declarations and Formatting
+
+Declare variables at the start of the proc, not in the middle of loops or blocks.
+
+```nim
+var
+  t1: string
+  t2: int
+  t3: uint8
+```
+
+Always indent `var`, `let`, `const`, and `type` when declaring multiple values.
+
+```nim
+const
+  c1: string = "hey"
+  c2: int = 0
+  c3: uint8 = 0
+var
+  t1: string = "this value is known already, but needs to be changed later"
+  t2: int # this value is not yet known, but we reserve the space for it
+  t3: uint8 # same here
+let
+  t4: string = "holla"
+  t5: int = 0
+```
+
+Use `const` whenever possible; otherwise use `var`. If you already know the value, assign it immediately:
+
+```nim
+var
+  t1: string = "Assign value immediately like it should be"
+```
+
+Not:
+
+```nim
+var
+  t1: string
+t1 = "Why assign later?"
+```
 
 ## Layout
 
@@ -70,6 +129,8 @@ When documenting architecture, explain:
 5. which loops call those orchestrators,
 6. normal examples of use,
 7. where disk, process, or network boundaries live.
+
+Additionally, make sure to add examples of how to use the repo in the `README.md` file.
 
 ## Tests and Tasks
 

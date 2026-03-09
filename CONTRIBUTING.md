@@ -34,10 +34,10 @@ Its `CONTRIBUTING.md` should cover:
 
 ## Publish hygiene checklist
 Before pushing changes here or copying templates into another repo:
-1. keep tracked `valk/valkyrie_config.template.md` values relative or placeholder-safe,
-2. copy machine-local values into ignored `valk/valkyrie_config.md`,
+1. keep tracked `.iron/.local.config.toml.template` values relative or placeholder-safe,
+2. copy machine-local values into ignored `.iron/.local.config.toml`,
 3. do not commit generated binaries, local `nimble.paths`, or editor state,
-4. update `README.md`, `CONTRIBUTING.md`, and `valk/conventions.md` together when conventions change,
+4. update `README.md`, `CONTRIBUTING.md`, and `.iron/CONVENTIONS.md` together when conventions change,
 5. run `nimble test`,
 6. compile any entrypoints you touched.
 

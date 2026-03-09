@@ -5,7 +5,7 @@
 # =========================================
 
 import illwill
-import ../../interfaces/backend/core
+import interfaces/backend/core
 
 const
   AppName = "proto conventions"
@@ -22,8 +22,13 @@ proc runApp() =
   display(t0)
   discard getKey()
 
+proc main() =
+  illwillInit()
+  hideCursor()
+  try:
+    runApp()
+  finally:
+    illwillDeinit()
+
 when isMainModule:
-  initScreen()
-  defer: deinitScreen()
-  setCursorVisibility(false)
-  runApp()
+  main()

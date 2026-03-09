@@ -1,9 +1,9 @@
 # ==================================================
-# | proto conventions Illwill Backend Export        |
+# | proto conventions Backend Export                |
 # |-------------------------------------------------|
-# | Shared backend surface for illwill frontends.   |
+# | Stable import path for backend helpers.         |
 # ==================================================
 
-import core
+import core_shared
 
-export core
+export core_shared

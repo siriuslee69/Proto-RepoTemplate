@@ -1,8 +1,13 @@
+# ==================================================
+# | proto conventions Library Surface               |
+# |-------------------------------------------------|
+# | Re-exports the sample library modules.          |
+# ==================================================
 
 import level0/types
-import level0/level1/parser
-import level0/level1/level2/otherFunctions
+import level1/parser
+import level2/otherFunction
 
 export types
 export parser
-export otherFunctions
+export otherFunction

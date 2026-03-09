@@ -1,14 +1,13 @@
 # =========================================
-# | proto conventions Smoke Tests                   |
+# | proto conventions Smoke Tests          |
 # |---------------------------------------|
 # | Minimal compile/runtime checks.       |
 # =========================================
 
-import std/[unittest, strutils]
-import ../src/proto_conventions/interfaces/backend/core
+import std/[strutils, unittest]
+import ../src/proto_conventions
 
 suite "proto conventions scaffold":
-  test "backend description":
+  test "backend description includes the app name":
     let c = initBackend("proto conventions")
     check describeBackend(c).contains("proto conventions")
-

@@ -1,13 +1,15 @@
 # ==================================================
-# | proto conventions Root Module                  |
-# |------------------------------------------------|
-# | Public exports for backend helpers.            |
+# | proto conventions Root Module                   |
+# |-------------------------------------------------|
+# | Public package surface for examples and tests.  |
 # ==================================================
 
-import level2/otherFunctions
+import lib/level0/types
+import lib/level1/parser
+import lib/level2/otherFunction
+import interfaces/backend/core
 
 export types
 export parser
-export otherFunctions
-
-
+export otherFunction
+export core

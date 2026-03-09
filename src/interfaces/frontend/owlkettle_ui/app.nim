@@ -6,7 +6,7 @@
 
 import std/os
 import owlkettle
-import ../../interfaces/backend/core
+import interfaces/backend/core
 
 const
   AppName = "proto conventions"

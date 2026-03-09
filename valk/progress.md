@@ -1,6 +1,6 @@
 # Progress
 
-Commit Message: add progress template
+Commit Message: chore: describe the current change
 
 Features (Planned):
 - TBD
@@ -25,25 +25,20 @@ Status key:
 
 ## Priority 0
 
-- [x] Implementing something of high importance.
-- [x] Implementing something of high importance.
-- [x] Implementing something of high importance.
-- [x] Implementing something of high importance.
+- [ ] Publish-safe tracked config in `valk/`.
+- [ ] Docs and templates aligned with the current repo layout.
+- [ ] Smoke tests passing.
 
 ## Priority 1
 
-- [~] Implementing something of medium importance.
-- [ ] Implementing something of medium importance.
-- [ ] Implementing something of medium importance.
-- [ ] Implementing something of medium importance.
+- [ ] Add or refine repo-specific conventions.
+- [ ] Expand examples only when they clarify a convention.
 
 ## Priority 2
 
-- [ ] Implementing something of lower importance.
-- [ ] Implementing something of lower importance.
-- [ ] Implementing something of lower importance.
+- [ ] Add additional scaffolds when another repo pattern becomes common.
+- [ ] Trim stale guidance after repo splits settle.
 
 ## Priority 3
 
-- [ ] Implementing something of even lower importance.
-- [ ] Implementing something of even lower importance.
+- [ ] Capture non-urgent cleanup ideas for later.

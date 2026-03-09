@@ -1,12 +1,10 @@
-﻿import std/[os, strutils]
+import std/[os, strutils]
 
 version       = "0.1.0"
 author        = "siriuslee69"
-description   = "Hints and conventions for AI-driven programming"
-license       = "UNLICENSED"
+description   = "Shared conventions, templates, and example scaffolds for split Nim repos"
+license       = "Unlicense"
 srcDir        = "src"
-bin           = @["DevelopmentConventions"]
-
 
 task autopush, "Add, commit, and push with message from valk/progress.md":
   let path = "valk/progress.md"
@@ -20,7 +18,7 @@ task autopush, "Add, commit, and push with message from valk/progress.md":
   if msg.len == 0:
     msg = "No specific commit message given."
   exec "git add -A ."
-  exec "git commit -m \" " & msg & "\""
+  exec "git commit -m \"" & msg & "\""
   exec "git push"
 
 task find, "Use local clones for submodules in parent folder":
@@ -49,26 +47,22 @@ task find, "Use local clones for submodules in parent folder":
             exec "git config submodule." & current & ".url " & localUrl
     exec "git submodule sync --recursive"
 
-
 requires "nim >= 1.6.0", "owlkettle >= 3.0.0", "illwill >= 0.4.0"
 
 task buildDesktop, "Build the GTK4 desktop app":
-  exec "nim c -d:release src/proto_conventions/interfaces/frontend/desktop/app.nim"
+  exec "nim c -d:release src/interfaces/frontend/owlkettle_ui/app.nim"
 
 task runDesktop, "Run the GTK4 desktop app":
-  exec "nim c -r src/proto_conventions/interfaces/frontend/desktop/app.nim"
+  exec "nim c -r src/interfaces/frontend/owlkettle_ui/app.nim"
 
 task runCli, "Run the CLI entrypoint":
-  exec "nim c -r src/proto_conventions/interfaces/frontend/cli/app_cli.nim"
+  exec "nim c -r src/interfaces/frontend/cli/app_cli.nim"
 
 task runTui, "Run the TUI entrypoint":
-  exec "nim c -r src/proto_conventions/interfaces/frontend/tui/app_tui.nim"
+  exec "nim c -r src/interfaces/frontend/illwill_tui/app_tui.nim"
 
 task test, "Run unit tests":
   exec "nim c -r tests/test_smoke.nim"
 
-
-
 task smoke, "Run smoke tests":
-  exec "nim c -r ../tests/test_smoke.nim"
-
+  exec "nim c -r tests/test_smoke.nim"

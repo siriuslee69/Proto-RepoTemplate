@@ -26,3 +26,5 @@ template role*(x: set[MetaRole]) {.pragma.}
 template risk*(x: MetaRisk) {.pragma.}
 template issues*(x: MetaIssues) {.pragma.}
 template tags*(x: MetaTags) {.pragma.}
+
+

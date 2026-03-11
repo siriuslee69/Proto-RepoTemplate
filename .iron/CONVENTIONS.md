@@ -19,23 +19,31 @@ Always define vars, consts and types in indented blocks!
 
 ## No complex logic! Build modular, parallel, multipass logic.
 Adhere to the mantra: Perceive data -> build truth state -> act on parsed data
+To make this possible, we use roles for data and functions, this also helps greatly with visualization and debugging.
 
-### Perceiving data - means to parse data and extract information.
-This should be done via rather small functions (role: `parser`) which look for a specific information each. 
-They should output one or all of the following:
-1. Was the information present at all? (return bool/number)
-2. Where was the information? (return number)
-3. What was the information? (return string/enum/bool/number)
+### Type Roles
+`rawData` <- Raw data from somewhere (network, input, file, etc.)
+`preparedData` <- Prepared data (sanitized + decrypted)
+`truthState` <- Truth state of the data
+`memory` <- Regularly accessed data that needs to be stored in memory for performance reasons
 
-### Building a truth state about the data - means to build a state from the output of all parser functions that acted on it:
-This should be an object/tuple that can hold all the parsers extracted information. (role: `truthState`)
-There should be one function which calls all parsers (simultaneously or in specific order) to fill this truth state. (role: `truthBuilder`)
-The truth state ITSELF can be used by one of these parsers as well to add to the truth state. (role: `metaParser`)
+### Function Roles
+`dataFetcher` <- Grabs data from somewhere (network, input, file, etc.) and returns it via the `rawData` role object.
+`decryptor` <- Decrypts data (if encrypted) and returns it via the `preparedData` object.
+`sanitizer` <- Cleans data (remove invalid characters, etc.) and returns it via the `preparedData` role object.
+(both sanitizer and decryptor are optional and can be combined)
+`parser` (or `metaParsers`) <- Extracts information from `preparedData` role objects (or the `truthState`) and outputs `primitive` types only.
+`truthBuilder` <- Builds a truth state from the parsed data and return `primitives` by calling the parsers and feeding it into the `truthState` object.
+`actor` <- Reads the `TruthState` and acts/computes on other data/output. It's decisions are based on information from the `truthState` role object only.
+`orchestrator` (/metaOrchestrators) <- Coordinates the above functions (Calling sanitizer, decryptor, parser, truthBuilder, actor etc. in succession or in parallel).
+`metaOrchestrator` <- Coordinates the orchestrators
+`encryptor` <- Encrypts data (if needed) and hands it to the `dataWriter` or stores it in a `memory` role object.
+`dataWriter` <- Writes data to somewhere (network, output, file, etc.)
+`helper` <- Helper functions that do not fit into the above categories
+`math` <- Math functions that perform complex calculations on any kind of data
 
-### Acting on the parsed data - means to output new data or change existing data/states.
-These functions (role: `actor`) should parse the truthstate object and output/change data outside of the truth state.
-A big function (role: `orchestrator`) which usually loops or runs on change, will first call the truthbuilder, which calls the parsers. Then the orchestrator will call the actors to perform based on the truthstate.
-There may be more than one orchestrator (one for parsers, one for actors) and there may be orchestrators that call other orchestrators (role: `metaOrchestrator`).
+## Debugging
+For faster debugging, put a when
 
 ## Some structural examples
 

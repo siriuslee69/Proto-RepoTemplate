@@ -2,8 +2,13 @@
 ## Only the tags are meant to be changed! Everything else should be kept as is!
 type
     MetaRole = enum
-        helper, math, parser, metaParser, actor, orchestrator, metaOrchestrator,
-            truthBuilder, truthState, other
+        helper, math,
+        dataFetcher, decryptor, parser, truthBuilder, metaParser,
+        actor, orchestrator, metaOrchestrator, encryptor, dataWriter,
+        other,
+        rawData, preparedData,
+        truthState, memory
+
     MetaInput = enum
         user, llm, thirdParty, trusted
     MetaRisk = enum
@@ -16,8 +21,8 @@ type
         other #put your custom tags here
     MetaTags = set[MetaTag]
 
-template input*(x: MetaInput) {.pragma.}
-template role*(x: MetaRole) {.pragma.}
+template input*(x: set[MetaInput]) {.pragma.}
+template role*(x: set[MetaRole]) {.pragma.}
 template risk*(x: MetaRisk) {.pragma.}
 template issues*(x: MetaIssues) {.pragma.}
 template tags*(x: MetaTags) {.pragma.}

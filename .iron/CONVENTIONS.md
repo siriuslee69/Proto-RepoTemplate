@@ -6,10 +6,10 @@ These tags and pragma definitions live inside the .iron folder.
 The tags type is repo specific and should be extended/fit respectively.
 
 ## No let declarations!
-Instead use var or const at the beginning of a function.
+Let declarations should ONLY be used for functions that have many if/case statements and where an initialization of
+each var for every branch is highly inefficient. Otherwise use var or const at the beginning of a function.
 Give variables a default value and reassign later if needed.
-Avoid declaring inside loops at all costs.
-(You may only use them for runtime user inputs instead of vars.)
+Avoid declarations inside loops.
 
 ## No loop nesting! No if-statement nesting!
 Instead, inline functions via pragma or use templates!

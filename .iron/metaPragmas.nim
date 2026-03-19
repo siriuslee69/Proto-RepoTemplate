@@ -13,6 +13,8 @@ type
         user, llm, thirdParty, trusted
     MetaRisk = enum
         `low`, `medium`, `high`
+    MetaSpeed {.pure.} = enum
+        fast, medium, long, `data-dependent`
     MetaIssue = tuple
         name: string # short description or name
         id: uint64 #issues id/reference
@@ -24,7 +26,7 @@ type
 template input*(x: set[MetaInput]) {.pragma.}
 template role*(x: set[MetaRole]) {.pragma.}
 template risk*(x: MetaRisk) {.pragma.}
+template speed*(x: MetaSpeed) {.pragma.}
 template issues*(x: MetaIssues) {.pragma.}
 template tags*(x: MetaTags) {.pragma.}
-
 

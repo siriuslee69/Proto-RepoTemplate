@@ -14,7 +14,7 @@ type
     MetaRisk = enum
         `low`, `medium`, `high`
     MetaSpeed {.pure.} = enum
-        fast, medium, long, `data-dependent`
+        `fast`, `medium`, `long`, `data-dependent`
     MetaIssue = tuple
         name: string # short description or name
         id: uint64 #issues id/reference

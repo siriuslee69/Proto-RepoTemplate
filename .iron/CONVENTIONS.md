@@ -6,7 +6,7 @@ These tags and pragma definitions live inside the .iron folder.
 The tags type is repo specific and should be extended/fit respectively.
 
 ## No let declarations!
-Let declarations should ONLY be used for functions that have many if/case statements and where an initialization of
+`let` declarations should ONLY be used for functions that have many if/case statements and where an initialization of
 each var for every branch is highly inefficient. Otherwise use var or const at the beginning of a function.
 Give variables a default value and reassign later if needed.
 Avoid declarations inside loops.
@@ -132,21 +132,24 @@ The root of a repo should be structured into
 ```
 /.iron <- folder for Iron-RepoCoordinator
 /nix <-nix shell/dependencies (not always needed, only when UI or other dependencies required)
-/src/lib <- actual repo content 
-/src/interfaces <- guis/uis/clis (not always needed, libraries will at max use a cli)
+/src/protocols <- actual repo content 
+/src/clients <- guis/uis/clis (not always needed, libraries will at max use a cli)
+/src/server <- server architecture - loop, networking, etc.
 /submodules <- submodules
 /tests 
 ```
 
-Order modules by dependency level:
-
+Order modules in the protocols by dependency level:
+ 
 ```
-src/lib/types.nim
-src/lib/level0/moduleX.nim <- depends on types only
-src/lib/level1/moduleXY.nim <- depends at least on moduleX
-src/lib/level2/moduleTZ.nim <- depends at least on moduleXY
+src/protocols/types.nim
+src/protocols/level0/moduleX.nim <- depends on types only
+src/protocols/level1/moduleXY.nim <- depends at least on moduleX
+src/protocols/level2/moduleTZ.nim <- depends at least on moduleXY
 ...
 ```
+
+This is not needed in the server and client directory.
 
 In some libraries it might make sense to instead sort modules by role/name. 
 That is especially the case, if a repo is a collection of many tiny algorithms/parsers/helpers.

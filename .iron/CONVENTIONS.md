@@ -158,6 +158,8 @@ In these cases, you can group them by module first instead of by dependency leve
 Every (`.nim` file) must have a description at the top explaining what it does.
 Prefer visual hints like arrows (`<- ->`), ASCII art boxes, and separators (`|`, `-`).
 
+Make sure to add nimble tasks for all the builds/examples/tests so I can run them easily without flags.
+
 ## Reuse and Compression
 
 If you write three similar helper functions across modules, move them into `utils` and overload or use generics (`when`/`case`) instead. Do this regularly to keep the project lean and avoid unneeded bloat.

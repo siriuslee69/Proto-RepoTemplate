@@ -258,6 +258,7 @@ Make sure there are simple hover animations and click animations with a 0.4s tra
 
 The respective .ts files should be split by functionality, such that they dont grow too big. Do the same for the .html and .css files.
 Refactor when needed. 
+Always create two nimble tasks for the UI - one so I can run it and one so I can build it for production/release.
 
 ## .iron Folder (Repo Coordination)
 

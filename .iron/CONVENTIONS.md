@@ -243,12 +243,12 @@ Before you start writing the UI, identify these things:
 ## UI Functions
 
 In general, for the data-elements, we decide between two different functions:
-1. Functions that only affect one data-element
-2. Functions that affect multiple data-elements
+1. Functions that only effect one data-element
+2. Functions that effect multiple data-elements
 
-Functions that affect only one data-point/element should have their button located in a menu that is close to the element or on the element itself. Alternatively, if there is a section that specifically only exists to show a menu/details that are data-element specific, then these kinds of buttons can live their as well.
+Functions that effect only one data-point/element should have their button located in a menu that is close to the element or on the element itself. Alternatively, if there is a section that specifically only exists to show a menu/details that are data-element specific, then these kinds of buttons can live their as well.
 
-Functions that affect multiple data-elements should live in a space somewhere that is shared by all data-elements of the current main-content.
+Functions that effect multiple data-elements should live in a space somewhere that is shared by all data-elements of the current main-content.
 
 ## .iron Folder (Repo Coordination)
 

@@ -182,7 +182,7 @@ If given the prompt to create a UI without specifics, you are to create it with 
 It should consist of a main grid which differentiates between main-menu, main-content, extra-menu.
 The main-menu is either located in the top cell or the side (usually the top). The extra-menu is usually at the bottom.
 The main-menu should always include a searchbar which either extends upon click or is always extended and sits flush with the rest of the menu buttons. 
-By default there should be no gap between buttons or the searchbar. The buttons and the searchbar should all be of equal height. Every button should have a symbol/icon written with the ArtofCreation-font and the actual text next/below it. 
+By default there should be no gap between buttons or the searchbar. The buttons and the searchbar should all be of equal height. Every button should have a symbol/icon written with the either the ArtofCreation-font (contains alien-like wingdings) and then the actual text in another font next/below it OR a fitting symbol made usual font like an arrow or something.
 If there is a sub-menu needed that changes per main-menu, it should be added in the same cell as the main-menu via a grid. The grid should have one column or row for the main-menu and then the other for the sub-menu which switches with each button press of the main-menu.
 The main content contains data of different kinds - if it is text focused data then it should be displayed as a list with columns. 
 Avoid padding and flexbox usage for bigger containers. You may only use padding in containers that display text directly with no nested divs inside. 

@@ -176,6 +176,77 @@ At the bottom of the README of a project, include a cleaner, more formatted vers
 - Always include a `test` folder with unit tests for important functions.
 - After changing code or dependencies, run tests and fix errors.
 
+## UI guidelines
+
+If given the prompt to create a UI without specifics, you are to create it with the nim-webui library, using typescript, html and css. The UI should adhere to the following principles:
+It should consist of a main grid which differentiates between main-menu, main-content, extra-menu.
+The main-menu is either located in the top cell or the side (usually the top). The extra-menu is usually at the bottom.
+The main-menu should always include a searchbar which either extends upon click or is always extended and sits flush with the rest of the menu buttons. 
+By default there should be no gap between buttons or the searchbar. The buttons and the searchbar should all be of equal height. Every button should have a symbol/icon written with the ArtofCreation-font and the actual text next/below it. 
+If there is a sub-menu needed that changes per main-menu, it should be added in the same cell as the main-menu via a grid. The grid should have one column or row for the main-menu and then the other for the sub-menu which switches with each button press of the main-menu.
+The main content contains data of different kinds - if it is text focused data then it should be displayed as a list with columns. 
+Avoid padding and flexbox usage for bigger containers. You may only use padding in containers that display text directly with no nested divs inside. 
+
+## UI Theming
+By default, use these colors:
+#121419;
+#ddeaf6;
+#7e98b7;
+#0b1118;
+rgba(43, 48, 56, 0.9);
+
+Data elements should have a dark transparent background with a backdrop-blur with a white, bold, white-shadowed font. 
+The main background of the body should be a black-grey gradient with a blueish tint. 
+To contrast this, some additional buttons can have a white background with a small greyish border around them and a black font (of they are tiny and important, to make them pop out more). 
+
+## UI Seperation and visibility
+Define colors somewhere at a top level in the css and then reuse them strategically.
+
+To increase visibility of items/elements use: 
+- very slight colored gradients (with one end transparent) as background overlays.
+- one-sided colored borders  
+- colored text 
+- background bezier curves with transparent end and start, but visible middle part (with a glow)
+- inverse background and text color compared to the rest of the UI
+- small grey border around an element
+
+This should be done to: 
+- group elements by function/attribute (`glue` color <- e.g.: menu/tags from data/elements)
+- grab the users attention and guide him through the UI (`recommendation` color <- e.g.: first-time setup/common settings)
+- separate big chunks/parts of the menu from other parts (`separator` color <- e.g.: different sections in the main-content)
+- highlight smaller parts of the UI, to make up for their size by color (`tiny` color <- e.g.: badges)
+
+## UI Clutter
+
+Avoid titles or descriptions of panels/contents at all costs! The user should understand their purpose by placement and coloring and the actual information inside the panel only. Use tooltips for buttons/elements whose functionality/data is too complex to understand without description.
+
+Avoid padding and margins at all costs! Do only add them in elements that do not contain other elements (except text).
+
+## UI Loginscreen
+
+Any UI that can have multiple accounts (most) should have a profile selection screen and maybe even a password and username field together with a registration field. The login screen/profile selection screen should have a floating panel in the middle. It should be positioned via a 3x3 grid and only occupy the middle cell. The login panel in the middle cell should be a separate grid. At the top it should have three buttons, flush with no gaps that switch between login, register and recover. The profile list should be a seperate panel positioned in the left, right or top cell of the main 3x3 grid.
+
+## UI Strategy
+
+Before you start writing the UI, identify these things:
+- What kind of data will the user handle? (table-like data/json-like data/text/images/references to data/videos)
+- Will the user handle multiple kinds of data? (then maybe each menu needs to have different visuals for teh data)
+- How should it be displayed? (List/Grid/Cards)
+- What are the main things that user wants to do with the data? (Read/Sort/Edit/Share/Share parts of it)
+- Which parts of the data need to be read/edited/shared/sorted?
+- Should these functions be implemented per data-element or activate for all elements simultaneously or both via different buttons? 
+- Where should the buttons live?
+
+## UI Functions
+
+In general, for the data-elements, we decide between two different functions:
+1. Functions that only affect one data-element
+2. Functions that affect multiple data-elements
+
+Functions that affect only one data-point/element should have their button located in a menu that is close to the element or on the element itself. Alternatively, if there is a section that specifically only exists to show a menu/details that are data-element specific, then these kinds of buttons can live their as well.
+
+Functions that affect multiple data-elements should live in a space somewhere that is shared by all data-elements of the current main-content.
+
 ## .iron Folder (Repo Coordination)
 
 Every repo must have a `.iron/` folder located next to `src/`.
@@ -243,3 +314,4 @@ Create an issue playbook at the bottom of the README.md which lists common issue
 
 Keep a copy of this .iron folder and its contents in each repo.
 Make sure to change the path in .local.config.toml in the .iron folder accordingly.
+

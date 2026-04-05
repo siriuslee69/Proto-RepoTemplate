@@ -250,6 +250,10 @@ Functions that effect only one data-point/element should have their button locat
 
 Functions that effect multiple data-elements should live in a space somewhere that is shared by all data-elements of the current main-content.
 
+## UI Animations
+
+Make sure there are simple hover animations and click animations with a 0.4s transition for all kinds of interactions.
+
 ## .iron Folder (Repo Coordination)
 
 Every repo must have a `.iron/` folder located next to `src/`.

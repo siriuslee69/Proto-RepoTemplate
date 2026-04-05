@@ -211,10 +211,13 @@ To increase visibility of items/elements use:
 - small grey border around an element
 
 This should be done to: 
-- group elements by function/attribute (`glue` color <- e.g.: menu/tags from data/elements)
-- grab the users attention and guide him through the UI (`recommendation` color <- e.g.: first-time setup/common settings)
-- separate big chunks/parts of the menu from other parts (`separator` color <- e.g.: different sections in the main-content)
-- highlight smaller parts of the UI, to make up for their size by color (`tiny` color <- e.g.: badges)
+- group elements by function/attribute (`glue` colors <- e.g.: menu/tags from data/elements)
+- grab the users attention and guide him through the UI (`recommendation` colors <- e.g.: first-time setup/common settings)
+- separate big chunks/parts of the menu from other parts (`separator` colors <- e.g.: different sections in the main-content)
+- highlight smaller parts of the UI, to make up for their size by color (`tiny` colors <- e.g.: badges)
+- highlight active/selected elements (`active`colors)
+
+There can be different versions of these colors in one UI, depending on menus / submenus.
 
 ## UI Clutter
 

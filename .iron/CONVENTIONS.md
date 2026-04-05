@@ -254,6 +254,11 @@ Functions that effect multiple data-elements should live in a space somewhere th
 
 Make sure there are simple hover animations and click animations with a 0.4s transition for all kinds of interactions.
 
+## UI File Structure
+
+The respective .ts files should be split by functionality, such that they dont grow too big. Do the same for the .html and .css files.
+Refactor when needed. 
+
 ## .iron Folder (Repo Coordination)
 
 Every repo must have a `.iron/` folder located next to `src/`.

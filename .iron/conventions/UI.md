@@ -81,16 +81,22 @@ with the Rec-Method being a list of methods by which the user can recover his ac
 - Use flexboxes only to display visual data, but not to display any menus.
 - Set border-radius to 0px or close to 0px for all containers. If you do use rounded corners, use them on singular corners only as highlighting or use a very shallow rounded border as a general base (0.5px-2px).
 - Make sure to align the scrollbars color to the rest of the UI theme colors.
-
+- Elements should not have borders all-around borders by default. 
+- Keep panels etc. "floating". 
+- Use backdrop-filter blur of 5-10px for most elements.
+- The background color of the body should be rather dark and a gradient. 
+- The menus and main-content should have blurred backgrounds and comparable brighter colors than the body background.
+- Dont give each element inside another element its own background - mark them with one-sided borders instead as seperate elements - or dont show them as seperated elements at all.
+- Keep backgrounds of buttons etc flat unless they are being selected or similar. Background-gradients are reserved as attention grabbers only (and for the main body background)
 
 ## UI Theming
 
 Define colors somewhere at a top level in the css and then reuse them strategically.
 
 By default, use these colors:
-#121419;
+#e632d7;
 #ddeaf6;
-#7e98b7;
+#6dc7dd;
 #4784ca;
 rgba(165, 45, 115, 0.9);
 

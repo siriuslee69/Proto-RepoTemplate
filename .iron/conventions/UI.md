@@ -88,6 +88,10 @@ with the Rec-Method being a list of methods by which the user can recover his ac
 - The menus and main-content should have blurred backgrounds and comparable brighter colors than the body background.
 - Dont give each element inside another element its own background - mark them with one-sided borders instead as seperate elements - or dont show them as seperated elements at all.
 - Keep backgrounds of buttons etc flat unless they are being selected or similar. Background-gradients are reserved as attention grabbers only (and for the main body background)
+- Increase the gaps and the outer margin of the main-grid to make everything feel more floaty.
+- Make sure that the different menus/filters/sort buttons differ slightly in style.
+- In general, go for hyper minimalistic/simplistic UI design and keep clutter and get rid of unnecessary text/explanations/descriptions of any kind.
+- Keep backgrounds isolated only to buttons and items themselves!!! Their wrappers/parent containers should have invisible backgrounds!
 
 ## UI Theming
 
@@ -99,6 +103,7 @@ By default, use these colors:
 #6dc7dd;
 #4784ca;
 rgba(165, 45, 115, 0.9);
+Use white and black colors with high transparency and stark backdrop blur for the main content and the menus.
 
 ## UI Seperation and visibility
 

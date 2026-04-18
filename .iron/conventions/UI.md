@@ -91,8 +91,8 @@ By default, use these colors:
 #121419;
 #ddeaf6;
 #7e98b7;
-#0b1118;
-rgba(43, 48, 56, 0.9);
+#4784ca;
+rgba(165, 45, 115, 0.9);
 
 ## UI Seperation and visibility
 

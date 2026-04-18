@@ -131,3 +131,7 @@ let
 ## Reuse and Compression
 
 If you write three similar helper functions across modules, move them into `utils` and overload or use generics (`when`/`case`) instead. Do this regularly to keep the project lean and avoid unneeded bloat.
+
+## Convention expanion
+
+These conventions are expanded by the other .md files in thie folder - please read them as well.

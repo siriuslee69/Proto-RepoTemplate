@@ -1,5 +1,5 @@
 ﻿# Proto Conventions
-The project should always be written in Nim unless stated otherwise. Please follow these guidelines and conventions.
+The project should always be written in Nim unless stated otherwise. Please follow the conventions in the .md files in .iron/conventions.
 
 ## Project Layout
 

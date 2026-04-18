@@ -6,7 +6,7 @@
 
 import std/os
 import owlkettle
-import interfaces/backend/core
+import ../../../proto_conventions
 
 const
   AppName = "proto conventions"
@@ -55,6 +55,7 @@ method view(s: DesktopAppState): Widget =
           xAlign = 0
 
 when isMainModule:
-  let stylesheetPath = resolveStylesheetPath()
-  let stylesheets = if stylesheetPath.len > 0: @[loadStylesheet(stylesheetPath)] else: @[]
+  var
+    stylesheetPath: string = resolveStylesheetPath()
+    stylesheets: seq[Stylesheet] = if stylesheetPath.len > 0: @[loadStylesheet(stylesheetPath)] else: @[]
   brew(gui(DesktopApp()), stylesheets = stylesheets)

@@ -4,8 +4,9 @@
 # | Prints backend status for automation. |
 # =========================================
 
-import interfaces/backend/core
+import ../../../proto_conventions
 
 when isMainModule:
-  let c = initBackend("proto conventions")
+  var
+    c: BackendContext = initBackend("proto conventions")
   echo describeBackend(c)

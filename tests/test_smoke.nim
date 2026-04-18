@@ -20,7 +20,8 @@ proc trimMetaInput(s: string): string {.
 
 suite "proto conventions scaffold":
   test "backend description includes the app name":
-    let c = initBackend("proto conventions")
+    var
+      c: BackendContext = initBackend("proto conventions")
     check describeBackend(c).contains("proto conventions")
 
   test "meta pragmas compile out of the box":

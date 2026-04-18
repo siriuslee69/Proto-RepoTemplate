@@ -1,27 +1,41 @@
 # proto-conventions
 
-Please read .iron/CONVENTIONS.md first.
+Please read `.iron/conventions/CONVENTIONS.md` first.
 Shared conventions, templates, and example scaffolding for the split Nim repos in this workspace.
 
 ## Repo Role
 - Give humans and agents one place to read the baseline project conventions.
 - Keep repository architecture patterns consistent across Mimir, Hugin, Eris, Fjord, and future repos.
 - Provide publish-safe templates for `README.md`, `CONTRIBUTING.md`, and `.iron/` repo metadata.
-- Ship a small Nim scaffold that demonstrates the intended `src/lib` and `src/interfaces` layout.
+- Ship a small Nim scaffold that demonstrates the intended `src/protocols` and `src/client` layout.
 
 ## What to read first
-- `.iron/CONVENTIONS.md`
+- `.iron/conventions/CONVENTIONS.md`
   - coding, layout, documentation, and publish hygiene conventions.
+- `.iron/conventions/PROJECTS.md`
+  - split-repo layout and nimble task expectations.
+- `.iron/conventions/UI.md`
+  - UI defaults for WebUI-first frontend work.
 - `CONTRIBUTING.md`
   - architecture documentation checklist and review expectations.
 - `proto_conventions.nimble`
   - shared developer tasks for smoke tests and local runs.
 
 ## Repo Layout
-- `src/lib/`
-  - sample library-style modules.
-- `src/interfaces/`
-  - sample frontend/backend split for CLI, TUI, and desktop entrypoints.
+- `src/protocols/`
+  - sample protocol/library modules grouped by dependency level.
+- `src/proto_conventions.nim`
+  - public package surface used by the smoke test and frontend samples.
+- `src/client/backend/`
+  - shared backend helpers for client-facing entrypoints.
+- `src/client/frontend/cli/`
+  - CLI sample entrypoint.
+- `src/client/frontend/illwill_tui/`
+  - illwill terminal sample entrypoint.
+- `src/client/frontend/owlkettle_ui/`
+  - GTK4/OwlKettle desktop sample entrypoint.
+- `src/client/frontend/webui/`
+  - WebUI sample entrypoint for the browser-style desktop shell.
 - `tests/test_smoke.nim`
   - minimal coverage for the public package surface.
 - `.iron/`
@@ -45,10 +59,16 @@ Every production repo should have:
   - run the smoke test suite.
 - `nimble runCli`
   - compile and run the CLI entrypoint.
+- `nimble runTui`
+  - compile and run the illwill TUI entrypoint.
 - `nimble buildDesktop`
   - compile the OwlKettle desktop example.
 - `nimble runDesktop`
   - compile and run the OwlKettle desktop example.
+- `nimble buildWebUi`
+  - compile the WebUI example entrypoint.
+- `nimble runWebUi`
+  - compile and run the WebUI example entrypoint.
 
 ## Notes
 - `proto-conventions` is a reference repo, not a production service.

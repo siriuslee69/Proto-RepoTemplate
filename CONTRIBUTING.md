@@ -8,6 +8,7 @@ This repo is the shared reference point for humans and agents working across the
 - documentation templates and checklists
 - Ratatoskr pragma/tag guidance
 - agent-facing architecture expectations
+- protocol/client scaffold examples that match the current template layout
 
 ## What does not belong here
 - runtime code for Mimir, Hugin, or other product repos
@@ -27,19 +28,30 @@ When you create or update a repo, make sure its `README.md` covers:
 Its `CONTRIBUTING.md` should cover:
 1. what belongs in the repo,
 2. what does not belong there,
-3. which files matter most,
+3. which files matter most in `src/protocols`, `src/client/backend`, and `src/client/frontend`,
 4. which functions to understand before changing behavior,
 5. review checklist,
 6. commands/tests to run.
+
+## Current scaffold layout
+- `src/protocols/`
+- `src/proto_conventions.nim`
+- `src/client/backend/`
+- `src/client/frontend/cli/`
+- `src/client/frontend/illwill_tui/`
+- `src/client/frontend/owlkettle_ui/`
+- `src/client/frontend/webui/`
+- `tests/test_smoke.nim`
 
 ## Publish hygiene checklist
 Before pushing changes here or copying templates into another repo:
 1. keep tracked `.iron/.local.config.toml.template` values relative or placeholder-safe,
 2. copy machine-local values into ignored `.iron/.local.config.toml`,
 3. do not commit generated binaries, local `nimble.paths`, or editor state,
-4. update `README.md`, `CONTRIBUTING.md`, and `.iron/CONVENTIONS.md` together when conventions change,
+4. update `README.md`, `CONTRIBUTING.md`, and `.iron/conventions/CONVENTIONS.md` together when conventions change,
 5. run `nimble test`,
-6. compile any entrypoints you touched.
+6. compile any entrypoints you touched,
+7. if you touch frontend examples, run the matching task for CLI, TUI, OwlKettle, or WebUI.
 
 ## Ratatoskr pragma guidance
 Prefer explicit proc pragmas for important functions. Recommended fields:
@@ -65,6 +77,15 @@ Recommended bare tags:
 ## Review Checklist
 - Does the change improve shared guidance rather than one repo only?
 - Does it stay concrete enough to be actionable?
-- Is it consistent with current split-repo architecture?
+- Is it consistent with the current `src/protocols` + `src/client` split?
 - If you add a new convention, is there a clear reason for it?
 - Does the repo stay publish-safe after the change?
+
+## Commands to run
+- `nimble test`
+- `nimble runCli`
+- `nimble runTui`
+- `nimble buildDesktop`
+- `nimble runDesktop`
+- `nimble buildWebUi`
+- `nimble runWebUi`

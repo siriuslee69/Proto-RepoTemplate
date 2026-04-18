@@ -39,6 +39,12 @@ The Main-Content will hold visualized data - as a grid-list, cards, graphs or si
 
 It is entirely possible for different Top-Menu buttons to link to Main-Contents with different visualizations based on the data that is being displayed in the respective Main-Content.
 
+For some projects you may go with a left menu instead:
+| Left-Menu | Main-Content|Main-Content |Main-Content|Main-Content |
+| Left-Menu | Main-Content|Main-Content |Right-Drag|Right-PanelExtended | 
+| Left-Menu | Main-Content|Main-Content |Main-Content|Main-Content |
+Specifically those that are very text heavy - like docs/books.
+
 ## UI Loginscreen
 
 If the app is profile based (most apps are) it should have a login screen.

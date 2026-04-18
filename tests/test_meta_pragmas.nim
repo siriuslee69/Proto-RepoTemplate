@@ -1,11 +1,10 @@
 # =========================================
-# | proto conventions Smoke Tests          |
-# |---------------------------------------|
-# | Minimal compile/runtime checks.       |
+# | meta pragma Smoke Tests               |
+# |--------------------------------------|
+# | Direct checks for .iron/meta usage.  |
 # =========================================
 
 import std/[strutils, unittest]
-import ../src/proto_conventions
 import ../.iron/meta/metaPragmas
 
 proc trimMetaInput(s: string): string {.
@@ -18,10 +17,6 @@ proc trimMetaInput(s: string): string {.
   .} =
   result = s.strip()
 
-suite "proto conventions scaffold":
-  test "backend description includes the app name":
-    let c = initBackend("proto conventions")
-    check describeBackend(c).contains("proto conventions")
-
-  test "meta pragmas compile out of the box":
+suite "meta pragmas":
+  test "compile and run without extra repo edits":
     check trimMetaInput("  pragma smoke  ") == "pragma smoke"

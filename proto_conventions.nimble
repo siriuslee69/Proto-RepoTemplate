@@ -66,3 +66,6 @@ task test, "Run unit tests":
 
 task smoke, "Run smoke tests":
   exec "nim c -r tests/test_smoke.nim"
+
+task testMetaPragmas, "Compile and run the pragma smoke test":
+  exec "nim c -r tests/test_meta_pragmas.nim"

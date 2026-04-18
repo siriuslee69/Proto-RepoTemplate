@@ -43,12 +43,12 @@ Before pushing changes here or copying templates into another repo:
 
 ## Ratatoskr pragma guidance
 Prefer explicit proc pragmas for important functions. Recommended fields:
+- `input`
 - `role`
 - `risk`
-- `issue`
+- `speed`
+- `issues`
 - `tag`
-- `tags`
-- `user_input`
 
 Recommended bare tags:
 - `entrypoint`

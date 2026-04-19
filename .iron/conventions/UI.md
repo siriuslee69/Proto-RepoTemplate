@@ -3,7 +3,7 @@ The project should always be written in Nim unless stated otherwise. Please foll
 
 ## UI guidelines
 
-If given the prompt to create a UI without specifics, you are to create it with the nim-webui library, using typescript, html and css. The UI should adhere to the following principles.
+If given the prompt to create a UI without specifics, you are to create it with the nim-webui library, using vanilla javascript, html and css. The UI should adhere to the following principles.
 
 ## UI Maingrid
 
@@ -162,6 +162,6 @@ Make sure there are simple hover animations and click animations with a 0.4s tra
 
 ## UI File Structure
 
-The respective .ts files should be split by functionality, such that they dont grow too big. Do the same for the .html and .css files.
+The respective .js files should be split by functionality, such that they dont grow too big. Do the same for the .html and .css files.
 Refactor when needed. 
 Always create two nimble tasks for the UI - one so I can run it and one so I can build it for production/release.

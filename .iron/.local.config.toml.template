@@ -1,0 +1,4 @@
+# This will contain configuration data for iron. Remove the template in a live project.
+
+[config]
+root = "MyMainCodingFolder"

@@ -1,0 +1,24 @@
+* text=auto
+
+*.md text eol=lf
+*.nim text eol=lf
+*.nimble text eol=lf
+*.nims text eol=lf
+*.toml text eol=lf
+*.nix text eol=lf
+*.js text eol=lf
+*.html text eol=lf
+*.css text eol=lf
+
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+*.a binary
+*.dll binary
+*.dylib binary
+*.exe binary
+*.lib binary
+*.obj binary
+*.out binary
+*.pdb binary
+*.so binary

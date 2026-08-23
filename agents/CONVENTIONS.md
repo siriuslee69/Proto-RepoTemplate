@@ -4,15 +4,50 @@ The conventions should stay local when in other repos outside of Proto-RepoTempl
 
 ## Functions need custom pragmas.
 These pragma definitions live in `.iron/meta/metaPragmas.nim`.
+Do not write a second version of that file by hand in a child repo. Take the one from `Proto-RepoTemplate/meta/metaPragmas.nim`, change the `MetaTag` list, and leave everything else alone.
 Only the `MetaTag` values are repo specific and should be extended/fit respectively.
 Use `tag(...)`, not `tags(...)`, because `tags` collides with Nim's built-in pragma.
 Keep the tag use to a minimum and focus on adding the roles correctly.
 Enums and simple types do not need custom pragmas. Some important objects may need them though.
 
+Otter reads these pragmas out of the tree to draw a repo's statistics, so the names are not ours to rename. A repo that renames them drops out of every chart.
+
+## Tags and roles in other languages
+Make sure the tags and roles are the same in other languages as they are in Nim. Use the same naming conventions as well. Since other languages do not support pragmas, just add these tags and roles via comments above the functions but wrap them inside the pragma notation still - just within the comment.
+
+## Tests need to say what they are for.
+`testKind` carries exactly one of `tkUnit`, `tkEdgeCase`, `tkBenchmark`, `tkRegression`, `tkBugfix`, `tkIntegration`, `tkFuzz`, `tkSmoke`, `tkProperty`, `tkOther`.
+`covers` names the routine(s) under test. `pins` names the bug a regression test holds down.
+
+```nim
+proc wideRange() {.testKind: tkEdgeCase, covers: "parseWidth".} =
+  ...
+```
+
+`test "..."` is a call to a template, so no pragma can be hung on it. Write the kind on the line above instead, in the same words:
+
+```nim
+# {.testKind: tkEdgeCase.}
+test "an empty list is refused":
+  check mean(@[]) == 0
+```
+
+A declared kind always wins. Without one the kind is guessed from the wording, and the tools report how many were declared and how many were guessed - so do not leave it to the wording for the tests that matter.
+
 ## No let declarations!
 `let` declarations should ONLY be used for functions that have many if/case statements and where an initialization of each var for every branch is highly inefficient. Otherwise use var or const at the beginning of a function.
 Give variables a default value and reassign later if needed.
 Avoid declarations inside loops.
+
+## No backwards compatability shims/double or triple facades - unless they have different jobs (compile time vs runtime inference is ok)
+
+When we restructure an existing repo, breaking the API or the underlying archtitecture is FINE. 
+Just because there are repos that call this project should never justify keeping old bloat.
+Do not build or keep duplicate code/older API calls to dead code in the project after restructure.
+Do not build unnecssary wrappers around already existing code unless they truly simplify calling and help with abstraction or overloading.
+The only time when you should have different access layers is when having to compile parts of a project only.
+Then it is necessary to split the repo into different when statements that compile specific modules only. 
+This is especially important for IoT usage. Make sure that most low-level protocols always have that.
 
 ## No loop nesting! No if-statement nesting!
 Instead, inline functions via pragma or use templates!

@@ -4,7 +4,7 @@
 # | Shared backend state used by the sample UIs.    |
 # ==================================================
 
-import ../../../.iron/meta/metaPragmas
+import ../../../meta/metaPragmas
 import ../../protocols/level0/types
 import ../../protocols/level2/otherFunction
 

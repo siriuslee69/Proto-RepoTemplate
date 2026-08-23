@@ -5,7 +5,7 @@
 # =========================================
 
 import std/[strutils, unittest]
-import ../.iron/meta/metaPragmas
+import ../meta/metaPragmas
 
 proc trimMetaInput(s: string): string {.
     input({user}),

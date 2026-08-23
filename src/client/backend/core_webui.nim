@@ -5,7 +5,7 @@
 # ==================================================
 
 import std/json
-import ../../../.iron/meta/metaPragmas
+import ../../../meta/metaPragmas
 import ../../protocols/level0/types
 import core
 

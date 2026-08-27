@@ -172,11 +172,24 @@ task buildWebUi, "Build the WebUI entrypoint":
 task runWebUi, "Build and run the WebUI entrypoint":
   exec "nim c -r --nimcache:build/nimcache_webui_run " & resolveWebUiEntryPath()
 
+task testMetaPragmas, "Compile and run the pragma smoke test":
+  exec "nim c -r tests/test_meta_pragmas.nim"
+
+
+task runBenchmarks, "Compile and run the pragma smoke test":
+  exec "nim c -r tests/test_meta_pragmas.nim"
+
+
+task runTests, "Compile and run the pragma smoke test":
+  exec "nim c -r tests/test_meta_pragmas.nim"
+
+
+task runStatistics, "Compile and run the pragma smoke test":
+  exec "nim c -r tests/test_meta_pragmas.nim"
+
+
 task test, "Run unit tests":
   exec "nim c -r tests/test_smoke.nim"
 
 task smoke, "Run smoke tests":
   exec "nim c -r tests/test_smoke.nim"
-
-task testMetaPragmas, "Compile and run the pragma smoke test":
-  exec "nim c -r tests/test_meta_pragmas.nim"

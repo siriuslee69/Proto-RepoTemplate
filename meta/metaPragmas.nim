@@ -52,6 +52,18 @@ type
         tkIntegration, tkFuzz, tkSmoke, tkProperty, tkOther
     MetaTestKinds* = set[MetaTestKind]
 
+    MetaStage* = enum
+        ## How finished one routine is. A routine without this pragma is
+        ## taken to be finished; the pragma exists so that a routine
+        ## that is NOT finished can say so out loud, instead of being
+        ## guessed at from the wording of its body.
+        ##
+        ##   stStubbed     declared, and does nothing yet
+        ##   stPartial     some of it works, some of it does not
+        ##   stDeprecated  still here, on its way out
+        ##   stDone        finished, said explicitly
+        stStubbed, stPartial, stDeprecated, stDone
+
 template input*(x: MetaInput) {.pragma.}
 template input*(x: set[MetaInput]) {.pragma.}
 template role*(x: MetaRole) {.pragma.}

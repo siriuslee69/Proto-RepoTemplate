@@ -1,0 +1,4 @@
+title = "Proto RepoTemplate Tests"
+banner = "Run existing tests"
+output_path = "tests/testResults/otter"
+default_flags = ["*"]

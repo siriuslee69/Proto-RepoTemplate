@@ -4,6 +4,6 @@
 # | Shared backend surface for illwill frontends.   |
 # ==================================================
 
-import core
+import core_shared
 
-export core
+export core_shared

@@ -5,11 +5,11 @@
 # ==================================================
 
 import std/json
-import ../../../meta/metaPragmas
+import protoPragmas
 import ../../protocols/level0/types
-import core
+import core_shared
 
-export core
+export core_shared
 
 const
   SnapshotGeneratedAt = "2026-04-19T09:30:00Z"
@@ -21,7 +21,7 @@ template webuiHelper() {.pragma:
     risk(low),
     speed(fast),
     issues(@[(name: "webui-snapshot", id: 3'u64)]),
-    tag({other})
+    metaTags({tagOther})
   .}
 
 template webuiActor() {.pragma:
@@ -30,7 +30,7 @@ template webuiActor() {.pragma:
     risk(low),
     speed(fast),
     issues(@[(name: "webui-snapshot", id: 4'u64)]),
-    tag({other})
+    metaTags({tagOther})
   .}
 
 proc sampleVector(c: BackendContext, i: int): (TypeA, TypeB) {.webuiHelper.} =

@@ -1,6 +1,23 @@
 ## This file should be imported across all files inside src.
+##
+## RENAME IT when you copy this template: `meta/<yourRepo>Pragmas.nim`, and
+## change the `switch("path", "meta")` line in config.nims to match. Never
+## leave it called `metaPragmas`.
+##
+## Every Nim repository here ships one of these and they all end up on the
+## Nim path together. Nim takes the LAST --path entry that matches a module
+## name, so a shared name means exactly one repository compiles against its
+## own `MetaTag` list and the others silently get that repository's -- then
+## fail on the first tag their own list has, several imports from the cause:
+##
+##   padding.nim(84, 33) Error: undeclared identifier: 'tagCryptoBoundary'
+##
+## Distinct names cannot capture each other in any path order, and they let
+## the import stay flat (`import yourRepoPragmas`) from any depth, so moving
+## a file never breaks its pragma import.
 ## Only the MetaTag values are meant to be changed. Keep the pragma names as-is.
-## Use `tag(...)`, not `tags(...)`, because `tags` collides with Nim's built-in pragma.
+## Use `metaTags(...)`, not `tags(...)`, because `tags` collides with Nim's
+## built-in pragma.
 ##
 ## This file is the one every repository copies. Do not write a second
 ## version of it by hand in a child repository: take this one, change the
@@ -8,15 +25,15 @@
 ## pragmas to draw a repository's statistics, so a repository that
 ## renames them drops out of every chart.
 ##
-##   src/  -> role / input / risk / speed / tag        what a proc is
-##   tests/-> testKind / covers / pins                 what a test proves
+##   src/       -> role / input / risk / speed / metaTags / stage
+##   evaluation -> testKind / covers / pins
 type
     MetaRole* = enum
         helper, math,
         dataFetcher, decryptor, sanitizer, parser, truthBuilder, metaParser,
         actor, orchestrator, metaOrchestrator, encryptor, dataWriter,
         configurator,
-        otherRole,
+        other,
         rawData, preparedData,
         truthState, memory
 
@@ -24,14 +41,14 @@ type
         user, llm, thirdParty, trusted
     MetaRisk* = enum
         `low`, `medium`, `high`
-    MetaSpeed* = enum
-        `fast`, `normal`, `long`, dataDependent
+    MetaSpeed* {.pure.} = enum
+        fast, medium, long, `data-dependent`
     MetaIssue* = tuple
         name: string # short description or name
         id: uint64 #issues id/reference
     MetaIssues* = seq[MetaIssue]
     MetaTag* = enum
-        other #put your custom tags here
+        tagOther # Put repository-specific tags here.
     MetaTags* = set[MetaTag]
 
     MetaTestKind* = enum
@@ -71,7 +88,8 @@ template role*(x: set[MetaRole]) {.pragma.}
 template risk*(x: MetaRisk) {.pragma.}
 template speed*(x: MetaSpeed) {.pragma.}
 template issues*(x: MetaIssues) {.pragma.}
-template tag*(x: MetaTags) {.pragma.}
+template metaTags*(x: MetaTags) {.pragma.}
+template stage*(x: MetaStage) {.pragma.}
 
 template testKind*(x: MetaTestKind) {.pragma.}
 template testKind*(x: MetaTestKinds) {.pragma.}

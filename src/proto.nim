@@ -4,8 +4,8 @@
 # | Public package surface for examples and tests.  |
 # ==================================================
 
-import protocols/proto_conventions as protoProtocols
-import client/backend/core as protoCore
+import proto/protocols/proto_conventions as protoProtocols
+import proto/client/backend/core_shared as protoCore
 
 export protoProtocols
 export protoCore

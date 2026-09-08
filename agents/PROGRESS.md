@@ -1,17 +1,18 @@
 # Progress
 
-Commit Message: Some commit message
+Commit Message: Synchronize Otter pragmas and evaluation conventions
 
 Features (Planned):
 - TBD
 
 Features (Done):
-- Added some feature1
-- Added some feature2
+- Shared Otter-readable code, stage, and evaluation pragmas.
+- `evaluation/tests`, `evaluation/benchmarks`, and `evaluation/statistics` layout.
+- `autopush`, `switch`, and `applyNightly` Nimble Git tasks.
 
 Features (In Progress):
-- TBD
+- None
 
 Notes:
-- Last problem encountered: ProblemXY
-- Tried to fix: By doing XZ - didn't work, now using a workaround XQ.
+- Last problem encountered: old `.iron` and `tests/` paths remained after the repository restructure.
+- Fix: moved all template and convention references to `agents/`, `meta/`, and `evaluation/` and verified the smoke tests.

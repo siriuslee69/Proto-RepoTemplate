@@ -7,12 +7,21 @@ This repo does is meant as a template for other repos.
 ## Repo Role
 - Give humans and agents one place to read the baseline project conventions.
 - Keep repository architecture patterns consistent across Mimir, Hugin, Eris, Fjord, and future repos.
-- Provide publish-safe templates for `README.md`, `CONTRIBUTING.md`, and `.iron/` repo metadata.
-- Ship a small Nim scaffold that demonstrates the intended `src/protocols` and `s
+- Provide publish-safe templates for `README.md`, `CONTRIBUTING.md`,
+  `agents/PROGRESS.md`, and `meta/metaPragmas.nim`.
+- Ship a small Nim scaffold that demonstrates the intended protocol and client layout.
 
 ## Commands
 - `nimble test`
-  - run the smoke test suite.
+  - run every Nim test below `evaluation/tests/`.
+- `nimble runBenchmarks`
+  - run every Nim benchmark below `evaluation/benchmarks/`.
+- `nimble runStatistics`
+  - run every Nim statistics entry below `evaluation/statistics/`.
+- `nimble switch`
+  - switch between the `nightly` and `main` branches.
+- `nimble applyNightly`
+  - fast-forward `main` to the tested `nightly` state and push it.
 - `nimble runCli`
   - compile and run the CLI entrypoint.
 - `nimble runTui`

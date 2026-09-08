@@ -4,7 +4,7 @@
 # | Shared backend state used by the sample UIs.    |
 # ==================================================
 
-import ../../../meta/metaPragmas
+import protoPragmas
 import ../../protocols/level0/types
 import ../../protocols/level2/otherFunction
 
@@ -14,7 +14,7 @@ template backendMemory() {.pragma:
     risk(low),
     speed(fast),
     issues(@[(name: "backend-context", id: 1'u64)]),
-    tag({other})
+    metaTags({tagOther})
   .}
 
 template backendActor() {.pragma:
@@ -23,7 +23,7 @@ template backendActor() {.pragma:
     risk(low),
     speed(fast),
     issues(@[(name: "backend-context", id: 2'u64)]),
-    tag({other})
+    metaTags({tagOther})
   .}
 
 type

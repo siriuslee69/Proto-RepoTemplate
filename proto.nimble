@@ -9,8 +9,8 @@ srcDir        = "src"
 proc resolveProgressPath(): string =
   var
     ts: seq[string] = @[
-      ".iron/PROGRESS.md",
-      ".iron/progress.md"
+      "agents/PROGRESS.md",
+      "agents/progress.md"
     ]
   for t in ts:
     if fileExists(t):
@@ -67,17 +67,17 @@ proc isGeneratedOrLocalArtifact(path: string): bool =
     p.endsWith(".a") or p.endsWith(".lib") or p.endsWith(".pdb") or
     p == "local.properties" or p == "userconfig.toml" or
     p == "nimble.paths" or p == "nimble.develop" or
-    p.startsWith(".iron/.local")
+    p.startsWith("agents/.local")
 
 ## ---------------------------------------------------------------------------
-## Canonical git workflow tasks <- copy autopush/switch/applynightly verbatim
+## Canonical git workflow tasks <- copy autopush/switch/applyNightly verbatim
 ## into every repo's .nimble file. Repos work on `nightly` day to day;
-## `applynightly` promotes the tested state onto `main` by fast-forward.
+## `applyNightly` promotes the tested state onto `main` by fast-forward.
 ##
 ##   autopush     -> stage all, refuse generated/local artifacts, commit
-##                   with the message from .iron/PROGRESS.md, then push
+##                   with the message from agents/PROGRESS.md, then push
 ##   switch       -> toggle the checkout between nightly and main
-##   applynightly -> fast-forward main to nightly locally and on origin
+##   applyNightly -> fast-forward main to nightly locally and on origin
 ## ---------------------------------------------------------------------------
 
 task autopush, "Add, commit, and push after rejecting generated/local artifacts":
@@ -117,7 +117,7 @@ task switch, "Toggle the working branch between nightly and main":
     "' to '" & target & "'."
   exec "git checkout " & target
 
-task applynightly, "Promote nightly onto main by fast-forward and push":
+task applyNightly, "Promote nightly onto main by fast-forward and push":
   var
     branch: string = captureGit("branch --show-current").strip()
   if branch == "main":
@@ -173,23 +173,37 @@ task runWebUi, "Build and run the WebUI entrypoint":
   exec "nim c -r --nimcache:build/nimcache_webui_run " & resolveWebUiEntryPath()
 
 task testMetaPragmas, "Compile and run the pragma smoke test":
-  exec "nim c -r tests/test_meta_pragmas.nim"
+  mkDir("build")
+  exec "nim c --path:src -o:build/test_meta_pragmas -r evaluation/tests/other/test_meta_pragmas.nim"
 
 
-task runBenchmarks, "Compile and run the pragma smoke test":
-  exec "nim c -r tests/test_meta_pragmas.nim"
+task runBenchmarks, "Run repository benchmarks":
+  mkDir("build")
+  for path in walkDirRec("evaluation/benchmarks"):
+    if path.endsWith(".nim"):
+      exec "nim c --path:src -o:" &
+        quoteShell(joinPath("build", splitFile(path).name)) & " -r " & quoteShell(path)
 
 
-task runTests, "Compile and run the pragma smoke test":
-  exec "nim c -r tests/test_meta_pragmas.nim"
+task runTests, "Run repository tests":
+  mkDir("build")
+  for path in walkDirRec("evaluation/tests"):
+    if path.endsWith(".nim"):
+      exec "nim c --path:src -o:" &
+        quoteShell(joinPath("build", splitFile(path).name)) & " -r " & quoteShell(path)
 
 
-task runStatistics, "Compile and run the pragma smoke test":
-  exec "nim c -r tests/test_meta_pragmas.nim"
+task runStatistics, "Run repository statistics":
+  mkDir("build")
+  for path in walkDirRec("evaluation/statistics"):
+    if path.endsWith(".nim"):
+      exec "nim c --path:src -o:" &
+        quoteShell(joinPath("build", splitFile(path).name)) & " -r " & quoteShell(path)
 
 
 task test, "Run unit tests":
-  exec "nim c -r tests/test_smoke.nim"
+  exec "nimble runTests -y"
 
 task smoke, "Run smoke tests":
-  exec "nim c -r tests/test_smoke.nim"
+  mkDir("build")
+  exec "nim c --path:src -o:build/test_smoke -r evaluation/tests/other/test_smoke.nim"

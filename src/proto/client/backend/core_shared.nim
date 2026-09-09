@@ -4,26 +4,26 @@
 # | Shared backend state used by the sample UIs.    |
 # ==================================================
 
-import protoPragmas
+import runePragmas
 import ../../protocols/level0/types
 import ../../protocols/level2/otherFunction
 
 template backendMemory() {.pragma:
     input({trusted}),
     role({memory}),
-    risk(low),
-    speed(fast),
+    risk(rkLow),
+    speed(spFast),
     issues(@[(name: "backend-context", id: 1'u64)]),
-    metaTags({tagOther})
+    tag("other")
   .}
 
 template backendActor() {.pragma:
     input({trusted}),
     role({actor}),
-    risk(low),
-    speed(fast),
+    risk(rkLow),
+    speed(spFast),
     issues(@[(name: "backend-context", id: 2'u64)]),
-    metaTags({tagOther})
+    tag("other")
   .}
 
 type

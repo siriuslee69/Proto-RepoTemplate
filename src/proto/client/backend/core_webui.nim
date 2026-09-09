@@ -5,7 +5,7 @@
 # ==================================================
 
 import std/json
-import protoPragmas
+import runePragmas
 import ../../protocols/level0/types
 import core_shared
 
@@ -18,19 +18,19 @@ const
 template webuiHelper() {.pragma:
     input({trusted}),
     role({helper}),
-    risk(low),
-    speed(fast),
+    risk(rkLow),
+    speed(spFast),
     issues(@[(name: "webui-snapshot", id: 3'u64)]),
-    metaTags({tagOther})
+    tag("other")
   .}
 
 template webuiActor() {.pragma:
     input({trusted}),
     role({actor}),
-    risk(low),
-    speed(fast),
+    risk(rkLow),
+    speed(spFast),
     issues(@[(name: "webui-snapshot", id: 4'u64)]),
-    metaTags({tagOther})
+    tag("other")
   .}
 
 proc sampleVector(c: BackendContext, i: int): (TypeA, TypeB) {.webuiHelper.} =

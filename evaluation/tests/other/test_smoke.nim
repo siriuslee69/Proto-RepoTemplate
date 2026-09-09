@@ -6,15 +6,15 @@
 
 import std/[strutils, unittest]
 import proto
-import protoPragmas
+import runePragmas
 
 proc trimMetaInput(s: string): string {.
     input({user}),
     role({helper}),
-    risk(low),
-    speed(fast),
+    risk(rkLow),
+    speed(spFast),
     issues(@[(name: "template-smoke", id: 1'u64)]),
-    metaTags({tagOther}),
+    tag("other"),
     stage(stDone)
   .} =
   result = s.strip()

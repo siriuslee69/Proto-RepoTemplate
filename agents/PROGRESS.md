@@ -1,6 +1,6 @@
 # Progress
 
-Commit Message: Synchronize Otter pragmas and evaluation conventions
+Commit Message: Exercise the new type-count pragmas in the pragma smoke test
 
 Features (Planned):
 - TBD

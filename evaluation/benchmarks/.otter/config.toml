@@ -1,0 +1,4 @@
+title = "Proto RepoTemplate Benchmarks"
+banner = "Run existing benchmarks"
+output_path = "evaluation/benchmarks/results/otter"
+default_flags = ["*"]

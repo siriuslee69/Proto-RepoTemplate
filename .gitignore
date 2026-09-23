@@ -1,3 +1,4 @@
+.local
 nimcache/
 build/
 builds/
@@ -19,19 +20,7 @@ bin/
 *.swp
 *.bak
 *.stackdump
-tests/test_smoke
-tests/test_meta_pragmas
-src/client/frontend/cli/app
-src/client/frontend/illwill_tui/app_tui
-src/client/frontend/owlkettle_ui/app
-src/client/frontend/webui/app
-src/client/frontend/webui_ui/app
-.DS_Store
 .vscode/
-.idea/
 nimble.develop
 nimble.paths
-.iron/.local*
-!.iron/.local*.template
-
 nimbledeps

@@ -1,0 +1,4 @@
+title = "Proto RepoTemplate Statistics"
+banner = "Run existing statistics"
+output_path = "evaluation/statistics/results/otter"
+default_flags = ["*"]

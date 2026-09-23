@@ -5,7 +5,7 @@
 # =========================================
 
 import illwill
-import ../../../proto_conventions
+import proto
 
 const
   AppName = "proto conventions"

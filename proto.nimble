@@ -1,231 +1,31 @@
-import std/[os, strutils]
-
 version       = "0.1.0"
 author        = "siriuslee69"
 description   = "Shared conventions, templates, and example scaffolds for split Nim repos"
 license       = "Unlicense"
 srcDir        = "src"
 
-proc resolveProgressPath(): string =
-  var
-    ts: seq[string] = @[
-      "agents/PROGRESS.md",
-      "agents/progress.md"
-    ]
-  for t in ts:
-    if fileExists(t):
-      return t
-  result = ts[0]
-
-proc resolveWebUiEntryPath(): string =
-  var
-    ts: seq[string] = @[
-      "src/client/frontend/webui/app.nim",
-      "src/client/frontend/webui_ui/app.nim"
-    ]
-  for t in ts:
-    if fileExists(t):
-      return t
-  result = ts[0]
-
-proc resolveGitIndexLockPath(): string =
-  result = joinPath(".git", "index.lock")
-
-proc resolveAutopushMessagePath(): string =
-  result = joinPath(".git", "autopush-commit-message.txt")
-
-proc resolveCommitMessage(progressPath: string): string =
-  var msg: string = ""
-  if fileExists(progressPath):
-    var content = readFile(progressPath)
-    for line in content.splitLines:
-      if line.startsWith("Commit Message:"):
-        msg = line["Commit Message:".len .. ^1].strip()
-        break
-  if msg.len == 0:
-    msg = "No specific commit message given."
-  result = msg
-
-proc captureGit(args: string): string =
-  ## args: one git subcommand line; output is returned, failure quits.
-  var t = gorgeEx("git " & args)
-  if t.exitCode != 0:
-    if t.output.len > 0:
-      echo t.output
-    quit(t.exitCode)
-  result = t.output
-
-proc isGeneratedOrLocalArtifact(path: string): bool =
-  ## path: one staged repo-relative path checked against local/generated outputs.
-  var p = path.replace('\\', '/')
-  result = splitPath(p).tail.startsWith(".fuse_hidden") or
-    p.startsWith("nimcache") or
-    p.startsWith("build/") or p.startsWith("builds/") or
-    p.startsWith(".gradle/") or p.startsWith(".kotlin/") or
-    p.endsWith(".exe") or p.endsWith(".dll") or p.endsWith(".so") or
-    p.endsWith(".dylib") or p.endsWith(".o") or p.endsWith(".obj") or
-    p.endsWith(".a") or p.endsWith(".lib") or p.endsWith(".pdb") or
-    p == "local.properties" or p == "userconfig.toml" or
-    p == "nimble.paths" or p == "nimble.develop" or
-    p.startsWith("agents/.local")
-
-## ---------------------------------------------------------------------------
-## Canonical git workflow tasks <- copy autopush/switch/applyNightly verbatim
-## into every repo's .nimble file. Repos work on `nightly` day to day;
-## `applyNightly` promotes the tested state onto `main` by fast-forward.
-##
-##   autopush     -> stage all, refuse generated/local artifacts, commit
-##                   with the message from agents/PROGRESS.md, then push
-##   switch       -> toggle the checkout between nightly and main
-##   applyNightly -> fast-forward main to nightly locally and on origin
-##   mainToNightlySnap -> give nightly main's files, keep nightly history
-## ---------------------------------------------------------------------------
-
-task autopush, "Add, commit, and push after rejecting generated/local artifacts":
-  var
-    progressPath: string = resolveProgressPath()
-    lockPath: string = resolveGitIndexLockPath()
-    msg: string = resolveCommitMessage(progressPath)
-    msgPath: string = resolveAutopushMessagePath()
-    staged: string = ""
-  if fileExists(lockPath):
-    quit(
-      "Refusing to run autopush because Git lock exists at " & lockPath &
-      ". If no Git process is active, remove the stale lock and retry."
-    )
-  exec "git add -A ."
-  staged = captureGit("diff --cached --name-only").strip()
-  if staged.len == 0:
-    echo "No staged changes. Skipping commit."
-  else:
-    for stagedPath in staged.splitLines:
-      if isGeneratedOrLocalArtifact(stagedPath):
-        echo "Refusing autopush: generated/local artifact staged: " & stagedPath
-        echo "Remove it from the index or extend .gitignore before committing."
-        quit(1)
-    writeFile(msgPath, msg & "\n")
-    exec "git commit --file " & msgPath
-  exec "git push"
-
-task switch, "Toggle the working branch between nightly and main":
-  var
-    branch: string = captureGit("branch --show-current").strip()
-    target: string = "nightly"
-  if branch == "nightly":
-    target = "main"
-  echo "Switching from '" &
-    (if branch.len > 0: branch else: "(detached HEAD)") &
-    "' to '" & target & "'."
-  exec "git checkout " & target
-
-task applyNightly, "Promote nightly onto main by fast-forward and push":
-  var
-    branch: string = captureGit("branch --show-current").strip()
-  if branch == "main":
-    quit "On 'main'. Run `nimble switch` to move to nightly before applying."
-  exec "git fetch . nightly:main"
-  exec "git push origin nightly:main"
-  echo "main is now at the nightly state; nightly branch left intact."
-
-task mainToNightlySnap, "Replace nightly's files with main's, keeping nightly's history":
-  ## Adds ONE commit on top of nightly whose files are exactly main's:
-  ##
-  ##   nightly: A -- B -- C -- W   <- W holds main's files, parents C and M
-  ##   main:    ...........M --'
-  ##
-  ## Old nightly commits stay reachable; nothing is force-pushed.
-  var
-    branch: string = captureGit("branch --show-current").strip()
-    dirty: string = captureGit("status --porcelain --untracked-files=no").strip()
-    snap: string = ""
-  if branch == "nightly" and dirty.len > 0:
-    quit "Uncommitted changes on nightly. Commit or stash them first."
-  snap = captureGit("commit-tree main^{tree} -p nightly -p main" &
-    " -m \"Snapshot main onto nightly\"").strip()
-  exec "git update-ref refs/heads/nightly " & snap
-  if branch == "nightly":
-    exec "git reset --hard nightly"
-  exec "git push origin nightly:nightly"
-  echo "nightly now matches main; its past commits are kept below " & snap[0 .. 6] & "."
-
-task find, "Use local clones for submodules in parent folder":
-  let modulesPath = ".gitmodules"
-  if not fileExists(modulesPath):
-    echo "No .gitmodules found."
-  else:
-    let root = parentDir(getCurrentDir())
-    var current = ""
-    for line in readFile(modulesPath).splitLines:
-      let s = line.strip()
-      if s.startsWith("[submodule"):
-        let start = s.find('"')
-        let stop = s.rfind('"')
-        if start >= 0 and stop > start:
-          current = s[start + 1 .. stop - 1]
-      elif current.len > 0 and s.startsWith("path"):
-        let parts = s.split("=", maxsplit = 1)
-        if parts.len == 2:
-          let subPath = parts[1].strip()
-          let tail = splitPath(subPath).tail
-          let localDir = joinPath(root, tail)
-          if dirExists(localDir):
-            let localUrl = localDir.replace('\\', '/')
-            exec "git config -f .gitmodules submodule." & current & ".url " & localUrl
-            exec "git config submodule." & current & ".url " & localUrl
-    exec "git submodule sync --recursive"
-
 requires "nim >= 1.6.0", "owlkettle >= 3.0.0", "illwill >= 0.4.0", "webui >= 2.5.0"
 
-task buildDesktop, "Build the GTK4 desktop app":
-  exec "nim c -d:release src/client/frontend/owlkettle_ui/app.nim"
-
-task runDesktop, "Run the GTK4 desktop app":
-  exec "nim c -r src/client/frontend/owlkettle_ui/app.nim"
-
-task runCli, "Run the CLI entrypoint":
-  exec "nim c -r src/client/frontend/cli/app_cli.nim"
-
-task runTui, "Run the TUI entrypoint":
-  exec "nim c -r src/client/frontend/illwill_tui/app_tui.nim"
-
-task buildWebUi, "Build the WebUI entrypoint":
-  exec "nim c --nimcache:build/nimcache_webui " & resolveWebUiEntryPath()
-
-task runWebUi, "Build and run the WebUI entrypoint":
-  exec "nim c -r --nimcache:build/nimcache_webui_run " & resolveWebUiEntryPath()
+## ---------------------------------------------------------------------------
+## This repo's own tasks. Everything else - autopush, switch, applyNightly,
+## updateSubmodules, runWebui/runCli/runTui/runOwl/runServer and their build*
+## twins, test, runBenchmarks, … - comes from Nimble-Tasks (included below).
+## `nimble sharedTasks` lists them.
+## ---------------------------------------------------------------------------
 
 task testMetaPragmas, "Compile and run the pragma smoke test":
   mkDir("build")
-  exec "nim c --path:src -o:build/test_meta_pragmas -r evaluation/tests/other/test_meta_pragmas.nim"
-
-
-task runBenchmarks, "Run repository benchmarks":
-  mkDir("build")
-  for path in walkDirRec("evaluation/benchmarks"):
-    if path.endsWith(".nim"):
-      exec "nim c --path:src -o:" &
-        quoteShell(joinPath("build", splitFile(path).name)) & " -r " & quoteShell(path)
-
-
-task runTests, "Run repository tests":
-  mkDir("build")
-  for path in walkDirRec("evaluation/tests"):
-    if path.endsWith(".nim"):
-      exec "nim c --path:src -o:" &
-        quoteShell(joinPath("build", splitFile(path).name)) & " -r " & quoteShell(path)
-
-
-task runStatistics, "Run repository statistics":
-  mkDir("build")
-  for path in walkDirRec("evaluation/statistics"):
-    if path.endsWith(".nim"):
-      exec "nim c --path:src -o:" &
-        quoteShell(joinPath("build", splitFile(path).name)) & " -r " & quoteShell(path)
-
-
-task test, "Run unit tests":
-  exec "nimble runTests -y"
+  exec "nim c -o:build/test_meta_pragmas -r evaluation/tests/other/test_meta_pragmas.nim"
 
 task smoke, "Run smoke tests":
   mkDir("build")
-  exec "nim c --path:src -o:build/test_smoke -r evaluation/tests/other/test_smoke.nim"
+  exec "nim c -o:build/test_smoke -r evaluation/tests/other/test_smoke.nim"
+
+## Shared tasks: the sibling clone wins, so an edit there reaches this repo
+## at once; the submodule is what a fresh clone elsewhere falls back on.
+when fileExists(thisDir() & "/../Nimble-Tasks/src/nimbleTasks.nims"):
+  include "../Nimble-Tasks/src/nimbleTasks.nims"
+elif fileExists(thisDir() & "/submodules/Nimble-Tasks/src/nimbleTasks.nims"):
+  include "submodules/Nimble-Tasks/src/nimbleTasks.nims"
+else:
+  {.error: "Nimble-Tasks not found: git submodule update --init submodules/Nimble-Tasks".}

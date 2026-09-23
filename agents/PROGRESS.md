@@ -1,6 +1,6 @@
 # Progress
 
-Commit Message: Exercise the new type-count pragmas in the pragma smoke test
+Commit Message: Take every generic task from the shared Nimble-Tasks repo
 
 Features (Planned):
 - TBD
@@ -8,11 +8,11 @@ Features (Planned):
 Features (Done):
 - Shared Otter-readable code, stage, and evaluation pragmas.
 - `evaluation/tests`, `evaluation/benchmarks`, and `evaluation/statistics` layout.
-- `autopush`, `switch`, `applyNightly`, and `mainToNightlySnap` Nimble Git tasks.
+- Generic nimble tasks come from the Nimble-Tasks submodule (git flow, submodules, frontends, evaluation).
 
 Features (In Progress):
 - None
 
 Notes:
-- Last problem encountered: old `.iron` and `tests/` paths remained after the repository restructure.
-- Fix: moved all template and convention references to `agents/`, `meta/`, and `evaluation/` and verified the smoke tests.
+- Last problem encountered: the frontend tasks pointed at `src/client/…` after the files had moved to `src/proto/client/…`, and the frontends imported a module that no longer existed.
+- Fix: Nimble-Tasks also looks inside `src/<package>/`; the frontends `import proto`. runCli, buildCli, buildTui, buildOwl (in the nix shell) and test all pass.

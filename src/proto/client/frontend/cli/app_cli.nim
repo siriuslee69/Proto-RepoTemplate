@@ -4,7 +4,7 @@
 # | Prints backend status for automation. |
 # =========================================
 
-import ../../../proto_conventions
+import proto
 
 when isMainModule:
   var

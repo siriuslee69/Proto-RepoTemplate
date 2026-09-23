@@ -78,7 +78,7 @@ proc isGeneratedOrLocalArtifact(path: string): bool =
 ##                   with the message from agents/PROGRESS.md, then push
 ##   switch       -> toggle the checkout between nightly and main
 ##   applyNightly -> fast-forward main to nightly locally and on origin
-##   mainToNightlyWipe -> give nightly main's files, keep nightly history
+##   mainToNightlySnap -> give nightly main's files, keep nightly history
 ## ---------------------------------------------------------------------------
 
 task autopush, "Add, commit, and push after rejecting generated/local artifacts":
@@ -127,7 +127,7 @@ task applyNightly, "Promote nightly onto main by fast-forward and push":
   exec "git push origin nightly:main"
   echo "main is now at the nightly state; nightly branch left intact."
 
-task mainToNightlyWipe, "Replace nightly's files with main's, keeping nightly's history":
+task mainToNightlySnap, "Replace nightly's files with main's, keeping nightly's history":
   ## Adds ONE commit on top of nightly whose files are exactly main's:
   ##
   ##   nightly: A -- B -- C -- W   <- W holds main's files, parents C and M
@@ -137,16 +137,16 @@ task mainToNightlyWipe, "Replace nightly's files with main's, keeping nightly's 
   var
     branch: string = captureGit("branch --show-current").strip()
     dirty: string = captureGit("status --porcelain --untracked-files=no").strip()
-    wipe: string = ""
+    snap: string = ""
   if branch == "nightly" and dirty.len > 0:
     quit "Uncommitted changes on nightly. Commit or stash them first."
-  wipe = captureGit("commit-tree main^{tree} -p nightly -p main" &
-    " -m \"Reset nightly contents to main\"").strip()
-  exec "git update-ref refs/heads/nightly " & wipe
+  snap = captureGit("commit-tree main^{tree} -p nightly -p main" &
+    " -m \"Snapshot main onto nightly\"").strip()
+  exec "git update-ref refs/heads/nightly " & snap
   if branch == "nightly":
     exec "git reset --hard nightly"
   exec "git push origin nightly:nightly"
-  echo "nightly now matches main; its past commits are kept below " & wipe[0 .. 6] & "."
+  echo "nightly now matches main; its past commits are kept below " & snap[0 .. 6] & "."
 
 task find, "Use local clones for submodules in parent folder":
   let modulesPath = ".gitmodules"

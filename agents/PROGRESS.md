@@ -8,7 +8,7 @@ Features (Planned):
 Features (Done):
 - Shared Otter-readable code, stage, and evaluation pragmas.
 - `evaluation/tests`, `evaluation/benchmarks`, and `evaluation/statistics` layout.
-- `autopush`, `switch`, and `applyNightly` Nimble Git tasks.
+- `autopush`, `switch`, `applyNightly`, and `mainToNightlySnap` Nimble Git tasks.
 
 Features (In Progress):
 - None

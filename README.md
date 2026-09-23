@@ -21,6 +21,7 @@ This repo is meant as a template for other repos.
 - `nimble switch`
   - switch between the `nightly` and `main` branches.
 - `nimble applyNightly`
+- `nimble mainToNightlySnap`
   - fast-forward `main` to the tested `nightly` state and push it.
 - `nimble runCli`
   - compile and run the CLI entrypoint.

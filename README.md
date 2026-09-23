@@ -1,5 +1,5 @@
 ## Proto-RepoTemplate
-This repo does is meant as a template for other repos.
+This repo is meant as a template for other repos.
 
 ## Quick Start Guide
 
